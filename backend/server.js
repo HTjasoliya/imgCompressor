@@ -69,13 +69,18 @@ app.post('/compress', upload.single('image'), async (req, res) => {
                 .toBuffer();
         }
 
-        res.set('Content-Type', `image/${format === 'png' ? 'png' : 'jpeg'}`);
+        // res.set('Content-Type', `image/${format === 'png' ? 'png' : 'jpeg'}`);
+        res.set('Content-Type', req.file.mimetype);
         res.send(compressedImageBuffer);
 
     } catch (error) {
         console.error('Error compressing image:', error);
         res.status(500).send('Error compressing image.');
     }
+});
+
+app.get("/", (req, res) => {
+    res.send("Image Compressor Backend Running 🚀");
 });
 
 app.listen(port, () => {
